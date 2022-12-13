@@ -3,8 +3,5 @@
   "type": "project",
   "description": "Webigniter core",
   "license": "MIT",
-  "minimum-stability": "stable",
-  "require": {
-    "codeigniter4/framework": "^4.2.3"
-  }
+  "minimum-stability": "stable"
 }
