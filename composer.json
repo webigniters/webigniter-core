@@ -5,6 +5,6 @@
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
-    "codeigniter4/appstarter": "^4.2.3"
+    "codeigniter4/framework": "^4.2.3"
   }
 }
