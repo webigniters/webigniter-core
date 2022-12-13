@@ -4,5 +4,7 @@
   "description": "Webigniter core",
   "license": "MIT",
   "minimum-stability": "stable",
-  "require": {}
+  "require": {
+    "codeigniter4/appstarter": "^4.2.3"
+  }
 }
