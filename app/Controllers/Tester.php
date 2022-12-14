@@ -8,7 +8,7 @@ class Tester extends BaseController
 {
     public function hi()
     {
-        return view('\Webigniters\Views\home');
+        return view('\Webigniter\Views\home');
     }
 
 }
