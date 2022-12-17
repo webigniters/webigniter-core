@@ -1,6 +1,7 @@
 <?php
 /** @var Content $content */
 /** @var array $attachedElements */
+/** @var array $viewsList */
 /** @var AttachedElement $attachedElement */
 
 use Webigniter\Libraries\AttachedElement;
@@ -34,6 +35,18 @@ use Webigniter\Libraries\Content;
                         <?=ucfirst(lang('general.url'));?>
                         <i data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('tooltips.url'));?>"><i class="far fa-question-circle"></i></i></label>
                     <input class="form-control" id="slug" type="text" name="slug" value="<?=set_value('slug', $content->getSlug());?>" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="view_file"><?=ucfirst(lang('general.view_file'));?></label>
+                    <select class="form-select js-choice" id="view_file" size="1" name="view_file" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <option value=""><?=ucfirst(lang('general.view_file_select'));?></option>
+                        <?php foreach($viewsList as $file):
+                            if(str_ends_with($file, '.php')):?>
+                                <option <?=set_value('view_file', $content->getViewFile()) == $file ? 'selected' : ''?>><?=$file;?></option>
+                            <?php endif;
+                        endforeach; ?>
+                    </select>
                 </div>
 
                 <button class="btn btn-primary" type="submit"><?=ucfirst(lang('general.save'));?></button>

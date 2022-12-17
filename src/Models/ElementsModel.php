@@ -12,5 +12,5 @@ class ElementsModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType     = Element::class;
 
-    protected $allowedFields = ['name', 'language', 'image', 'partial', 'settings'];
+    protected $allowedFields = ['name', 'language', 'class', 'partial', 'image', 'settings'];
 }

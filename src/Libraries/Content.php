@@ -9,6 +9,7 @@ class Content
     private int $id;
     private string $name;
     private string $slug;
+    private string $view_file;
     private int $category_id;
     private string $created_at;
     private string $updated_at;
@@ -36,6 +37,16 @@ class Content
     {
         return $this->slug;
     }
+
+    /**
+     * @return string
+     */
+    public function getViewFile(): string
+    {
+        return $this->view_file;
+    }
+
+
 
     /**
      * @return int
@@ -84,6 +95,15 @@ class Content
     {
         $this->slug = $slug;
     }
+
+    /**
+     * @param string $view_file
+     */
+    public function setViewFile(string $view_file): void
+    {
+        $this->view_file = $view_file;
+    }
+
 
     /**
      * @param int $category_id

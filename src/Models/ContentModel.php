@@ -12,7 +12,7 @@ class ContentModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType     = Content::class;
 
-    protected $allowedFields = ['name', 'slug', 'category_id'];
+    protected $allowedFields = ['name', 'slug', 'view_file', 'category_id'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

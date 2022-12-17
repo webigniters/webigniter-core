@@ -25,6 +25,7 @@ $session = Services::session();
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <link href="/assets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
+    <link href="/assets/vendors/choices/choices.min.css" rel="stylesheet" />
     <link href="/assets/vendors/webigniter/css/theme.min.css" rel="stylesheet" id="style-default">
     <link href="/assets/vendors/webigniter/css/user.min.css" rel="stylesheet" id="user-style-default">
     <script>
@@ -356,9 +357,11 @@ $session = Services::session();
     <script src="/assets/vendors/echarts/echarts.min.js"></script>
     <script src="/assets/vendors/fontawesome/all.min.js"></script>
     <script src="/assets/vendors/lodash/lodash.min.js"></script>
+    <script src="/assets/vendors/choices/choices.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="/assets/vendors/list.js/list.min.js"></script>
     <script src="/assets/vendors/webigniter/js/theme.js"></script>
+
 
 </body>
 </html>

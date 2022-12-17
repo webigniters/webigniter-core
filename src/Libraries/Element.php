@@ -7,8 +7,9 @@ class Element
     private int $id;
     private string $name;
     private string $language;
-    private string $image;
+    private string $class;
     private string $partial;
+    private string $image;
     private string $settings;
 
     /**
@@ -35,6 +36,21 @@ class Element
         return $this->language;
     }
 
+    /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartial(): string
+    {
+        return $this->partial;
+    }
 
     /**
      * @return string
@@ -47,20 +63,10 @@ class Element
     /**
      * @return string
      */
-    public function getPartial(): string
-    {
-        return $this->partial;
-    }
-
-
-    /**
-     * @return string
-     */
     public function getSettings(): string
     {
         return $this->settings;
     }
-
 
     /**
      * @param int $id
@@ -86,14 +92,12 @@ class Element
         $this->language = $language;
     }
 
-
-
     /**
-     * @param string $image
+     * @param string $class
      */
-    public function setImage(string $image): void
+    public function setClass(string $class): void
     {
-        $this->image = $image;
+        $this->class = $class;
     }
 
     /**
@@ -104,6 +108,13 @@ class Element
         $this->partial = $partial;
     }
 
+    /**
+     * @param string $image
+     */
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
+    }
 
     /**
      * @param string $settings
@@ -112,6 +123,8 @@ class Element
     {
         $this->settings = $settings;
     }
+
+
 
 
 }

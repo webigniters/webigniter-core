@@ -89,6 +89,9 @@ class Content extends BaseController
 
     public function edit(int $contentId)
     {
+        $viewsList = directory_map('../app/Views', 1);
+        unset($viewsList['errors\\']);
+
         $db = db_connect();
         $content = $this->contentModel->find($contentId);
         $elements = $this->elementsModel->findAll();
@@ -98,6 +101,7 @@ class Content extends BaseController
         $data['elements'] = $elements;
         $data['attachedElements'] = $attachedElements;
         $data['breadCrumbs'] = $content->getBreadCrumbs();
+        $data['viewsList'] = $viewsList;
 
         if($this->request->getMethod() == 'get'){
 
@@ -120,7 +124,13 @@ class Content extends BaseController
                         'min_length' => ucfirst(lang('errors.min_length', ['url', 3])),
                         'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
                     ]
+                ],
+                'view_file' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => ucfirst(lang('errors.required', ['view file'])),
                 ]
+            ]
             ];
 
             foreach($this->request->getPost() as $name => $value)
@@ -138,7 +148,8 @@ class Content extends BaseController
             } else{
                 $contentData = [
                     'name' => $this->request->getPost('name'),
-                    'slug' => url_title($this->request->getPost('slug'))
+                    'slug' => url_title($this->request->getPost('slug')),
+                    'view_file' => $this->request->getPost('view_file')
                 ];
 
                 $this->session->setFlashdata('messages', [ucfirst(lang('messages.edit_success', ['content']))]);
