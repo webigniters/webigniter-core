@@ -1,8 +1,8 @@
 <?php
-/** @var array $categories */
-/** @var Category $category */
+/** @var array $views */
+/** @var View $view */
 
-use Webigniter\Libraries\Category;
+use Webigniter\Libraries\View;
 
 ?>
 
@@ -10,47 +10,47 @@ use Webigniter\Libraries\Category;
 
 <?= $this->section('content') ?>
     <div class="w-auto pb-4 pt-2 d-flex flex-row-reverse">
-        <a class="btn btn-primary me-1 mb-1" href="/cms/categories/add"><?=ucfirst(lang('general.category_add'));?></a>
+        <a class="btn btn-primary me-1 mb-1" href="/cms/views/add"><?=ucfirst(lang('general.view_add'));?></a>
     </div>
     <div class="card mb-3">
         <div class="card-header">
             <div class="row flex-between-end">
                 <div class="col-auto align-self-center">
-                    <h3 class="mb-0" data-anchor="data-anchor"><?=ucfirst(lang('general.categories'));?></h3>
+                    <h3 class="mb-0" data-anchor="data-anchor"><?=ucfirst(lang('general.views'));?></h3>
                 </div>
             </div>
         </div>
         <div class="card-body pt-0">
             <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-cfcec397-a35c-4994-a54a-50bf30775d88" id="dom-cfcec397-a35c-4994-a54a-50bf30775d88">
-                    <div id="tableExample2" data-list='{"valueNames":["name","url", "actions"],"page":20,"pagination":true}'>
+                    <div id="tableExample2" data-list='{"valueNames":["name","used", "actions"],"page":20,"pagination":true}'>
                         <div class="table-responsive scrollbar">
                             <table class="table table-bordered table-striped fs--1 mb-0">
                                 <thead class="bg-200 text-900">
                                 <tr>
                                     <th class="sort fs-1" data-sort="name"><?=ucfirst(lang('general.name'));?></th>
-                                    <th class="sort fs-1" data-sort="url"><?=ucfirst(lang('general.url'));?></th>
+                                    <th class="sort fs-1" data-sort="used"><?=ucfirst(lang('general.used'));?></th>
                                     <th class="text-end fs-1"><?=ucfirst(lang('general.actions'));?></th>
-
                                 </tr>
                                 </thead>
                                 <tbody class="list">
-                                <?php foreach($categories as $category):?>
+                                <?php foreach($views as $view):?>
                                     <tr>
-                                        <td class="name fs-0"><a href="/cms/category/<?=$category->getId();?>"><?=$category->getName();?></a></td>
-                                        <td class="url fs-0">/<?=$category->isRequireSlug() ? $category->getSlug() : '';?></td>
+                                        <td class="name fs-0"><a href="/cms/views/<?=$view->getName();?>"><?=$view->getName();?></a></td>
+                                        <td class="used fs-0"><?=$view->getNumUsages();?></td>
                                         <td class="text-end">
-                                            <div>
-                                                <a href="/cms/categories/<?=$category->getId();?>/edit" class="btn btn-link p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.edit'));?>"><span class="text-500 fas fa-edit"></span></a>
-                                                <?php
-                                                $dataArray['question'] = ucfirst(lang('general.delete_question', [lang('general.category')]))." ".ucfirst(lang('general.category_delete_warning'));
-                                                $dataArray['link'] = '/cms/categories/'.$category->getId().'/delete';
-                                                $dataArray['data'][ucfirst(lang('general.category'))] = $category->getName();
+                                            <?php if($view->getNumUsages() === 0):?>
+                                                <div>
+                                                    <?php
+                                                    $dataArray['question'] = ucfirst(lang('general.delete_question', [lang('general.view')]));
+                                                    $dataArray['link'] = '/cms/views/'.$view->getName().'/delete';
+                                                    $dataArray['data'][ucfirst(lang('general.view'))] = $view->getName();
 
-                                                $jsonData = json_encode($dataArray);
-                                                ?>
-                                                <a class="btn btn-link p-0 ms-2 delete_button" href='#' datasrc='<?=$jsonData;?>' data-bs-toggle="modal" data-bs-target="#DeletionModal"><i data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><i class="text-500 fas fa-trash-alt"></i></i></a>
-                                            </div>
+                                                    $jsonData = json_encode($dataArray);
+                                                    ?>
+                                                    <a class="btn btn-link p-0 ms-2 delete_button" href='#' datasrc='<?=$jsonData;?>' data-bs-toggle="modal" data-bs-target="#DeletionModal"><i data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><i class="text-500 fas fa-trash-alt"></i></i></a>
+                                                </div>
+                                            <?php endif;?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

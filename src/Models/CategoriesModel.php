@@ -12,7 +12,7 @@ class CategoriesModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType     = Category::class;
 
-    protected $allowedFields = ['name', 'slug', 'require_slug', 'parent_id'];
+    protected $allowedFields = ['name', 'slug', 'require_slug', 'parent_id', 'layout_file', 'default_view'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

@@ -3,9 +3,11 @@
 namespace Webigniter\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Validation\Validation;
 use Config\Services;
+use Webigniter\Libraries\GlobalFunctions;
 use Webigniter\Models\CategoriesModel;
 use Webigniter\Models\ContentModel;
 
@@ -15,6 +17,7 @@ class Categories extends BaseController
     private Validation $validation;
     private Session $session;
     private ContentModel $contentModel;
+    private GlobalFunctions $globalFunctions;
 
     function __construct()
     {
@@ -22,6 +25,7 @@ class Categories extends BaseController
         $this->contentModel = new ContentModel();
         $this->validation = Services::validation();
         $this->session = Services::session();
+        $this->globalFunctions = new GlobalFunctions();
     }
 
 
@@ -38,6 +42,9 @@ class Categories extends BaseController
     public function add(int $parentId = null)
     {
         $data['parentId'] = $parentId;
+
+        $views = $this->globalFunctions->getViewsList();
+        $data['views'] = $views;
 
         if($parentId)
         {
@@ -62,16 +69,32 @@ class Categories extends BaseController
                         'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'name']))
                     ]
                 ],
-                'slug' => [
-                    'rules' => 'required|alpha_dash|min_length[3]|is_double_unique[categories,slug,parent_id,'.$parentId.']',
-                    'errors' => [
-                        'required' => ucfirst(lang('errors.required', ['url'])),
-                        'alpha_dash' => ucfirst(lang('errors.alpha_dash', ['url'])),
-                        'min_length' => ucfirst(lang('errors.min_length', ['url', 3])),
-                        'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
-                    ]
-                ]
             ];
+
+            if($this->request->getPost('require_slug') === 'on'){
+                $slugValidation = [
+                    'slug' => [
+                        'rules' => 'required|alpha_dash|is_double_unique[categories,slug,parent_id,'.$parentId.']',
+                        'errors' => [
+                            'required' => ucfirst(lang('errors.required', ['url'])),
+                            'alpha_dash' => ucfirst(lang('errors.alpha_dash', ['url'])),
+                            'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
+                        ]
+                    ]
+                ];
+            }
+            else{
+                $slugValidation = [
+                    'slug' => [
+                        'rules' => 'is_double_unique[categories,slug,parent_id,'.$parentId.']',
+                        'errors' => [
+                            'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
+                        ]
+                    ]
+                ];
+            }
+
+            $validationRules = array_merge($validationRules, $slugValidation);
 
             $this->validation->setRules($validationRules);
 
@@ -84,7 +107,9 @@ class Categories extends BaseController
                 $categoryData = [
                     'name' => $this->request->getPost('name'),
                     'slug' => $this->request->getPost('slug'),
-                    'parent_id' => $parentId
+                    'parent_id' => $parentId,
+                    'layout_file' => $this->request->getPost('layout_file'),
+                    'default_view' => $this->request->getPost('default_view')
                 ];
 
                 $this->session->setFlashdata('messages', [ucfirst(lang('messages.create_success', ['category']))]);
@@ -100,6 +125,10 @@ class Categories extends BaseController
     public function edit(int $categoryId)
     {
         $category = $this->categoriesModel->find($categoryId);
+
+        $views = $this->globalFunctions->getViewsList();
+
+        $data['views'] = $views;
         $data['category'] = $category;
         $data['breadCrumbs'] = $category->getBreadCrumbs();
 
@@ -116,16 +145,32 @@ class Categories extends BaseController
                         'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'name']))
                     ]
                 ],
-                'slug' => [
-                    'rules' => 'required|alpha_dash|min_length[3]|is_double_unique[categories,slug,parent_id,'.$category->getParentId().',id,'.$categoryId.']',
-                    'errors' => [
-                        'required' => ucfirst(lang('errors.required', ['url'])),
-                        'alpha_dash' => ucfirst(lang('errors.alpha_dash', ['url'])),
-                        'min_length' => ucfirst(lang('errors.min_length', ['url', 3])),
-                        'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
-                    ]
-                ]
             ];
+
+            if($this->request->getPost('require_slug') === 'on'){
+                $slugValidation = [
+                    'slug' => [
+                        'rules' => 'required|alpha_dash|is_double_unique[categories,slug,parent_id,'.$category->getParentId().']',
+                        'errors' => [
+                            'required' => ucfirst(lang('errors.required', ['url'])),
+                            'alpha_dash' => ucfirst(lang('errors.alpha_dash', ['url'])),
+                            'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
+                        ]
+                    ]
+                ];
+            }
+            else{
+                $slugValidation = [
+                    'slug' => [
+                        'rules' => 'is_double_unique[categories,slug,parent_id,'.$category->getParentId().']',
+                        'errors' => [
+                            'is_double_unique' => ucfirst(lang('errors.is_unique', ['category', 'url']))
+                        ]
+                    ]
+                ];
+            }
+
+            $validationRules = array_merge($validationRules, $slugValidation);
 
             $this->validation->setRules($validationRules);
 
@@ -138,7 +183,9 @@ class Categories extends BaseController
                 $categoryData = [
                     'name' => $this->request->getPost('name'),
                     'slug' => url_title($this->request->getPost('slug')),
-                    'require_slug' => $this->request->getPost('require_slug') == "on" ? 1 : 0
+                    'require_slug' => $this->request->getPost('require_slug') == "on" ? 1 : 0,
+                    'layout_file' => $this->request->getPost('layout_file'),
+                    'default_view' => $this->request->getPost('default_view')
                 ];
 
                 $this->session->setFlashdata('messages', [ucfirst(lang('messages.edit_success', ['category']))]);
@@ -168,5 +215,23 @@ class Categories extends BaseController
         $data['breadCrumbs'] = $category->getBreadCrumbs();
 
         return view('\Webigniter\Views\categories_detail', $data);
+    }
+
+    public function delete(int $categoryId): RedirectResponse
+    {
+        $category = $this->categoriesModel->find($categoryId);
+
+        $this->categoriesModel->delete($categoryId);
+        $this->categoriesModel->where('parent_id', $categoryId)->delete();
+
+        if($category->getParentId()){
+            $redirectUrl = url_to('\Webigniter\Controllers\Categories::detail', $category->getParentId());
+        } else{
+            $redirectUrl = url_to('\Webigniter\Controllers\Categories::list');
+        }
+
+        $this->session->setFlashdata('messages', [ucfirst(lang('messages.delete_success', [lang('general.category')]))]);
+
+        return redirect()->to($redirectUrl);
     }
 }

@@ -6,11 +6,14 @@ use Webigniter\Models\CategoriesModel;
 
 class Content
 {
+    use ObjectBuilder;
+
     private int $id;
     private string $name;
     private string $slug;
     private string $view_file;
     private int $category_id;
+    private bool $published;
     private string $created_at;
     private string $updated_at;
 
@@ -55,6 +58,16 @@ class Content
     {
         return $this->category_id;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+
 
     /**
      * @return string
@@ -114,6 +127,16 @@ class Content
     }
 
     /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+
+
+    /**
      * @param string $created_at
      */
     public function setCreatedAt(string $created_at): void
@@ -162,7 +185,7 @@ class Content
 
             $parentId = $parentData->getParentId();
 
-            if($parentData->isRequireSlug()){
+            if($parentData->isRequireSlug() && strlen($parentData->getSlug()) > 0){
                 $urlSegments[] = $parentData->getSlug();
             }
         }

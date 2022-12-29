@@ -31,6 +31,9 @@ use Webigniter\Libraries\Element;
                                             if($type === 'text'):?>
                                                 <label class="form-label" for="<?=$name;?>"><?=ucfirst(lang('elements.'.$name));?></label>
                                                 <input class="form-control" id="<?=$name;?>" type="text" name="<?=$name;?>"/>
+                                            <?php elseif($type === 'textarea'):?>
+                                                <label class="form-label" for="<?=$name;?>"><?=ucfirst(lang('elements.'.$name));?></label>
+                                                <textarea class="form-control" id="<?=$name;?>" name="<?=$name;?>"></textarea>
                                             <?php endif;
                                         endforeach; ?>
 

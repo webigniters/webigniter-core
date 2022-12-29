@@ -27,7 +27,6 @@ use Webigniter\Libraries\Content;
         </div>
     </div>
 
-
     <?php if(count($categories) > 0):?>
         <div class="card mb-3">
             <div class="card-header">
@@ -59,7 +58,14 @@ use Webigniter\Libraries\Content;
                                             <td class="text-end">
                                                 <div>
                                                     <a href="/cms/categories/<?=$category->getId();?>/edit" class="btn btn-link p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.edit'));?>"><span class="text-500 fas fa-edit"></span></a>
-                                                    <button class="btn btn-link p-0 ms-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><span class="text-500 fas fa-trash-alt"></span></button>
+                                                    <?php
+                                                    $dataArray['question'] = ucfirst(lang('general.delete_question', [lang('general.category')]))." ".ucfirst(lang('general.category_delete_warning'));
+                                                    $dataArray['link'] = '/cms/categories/'.$category->getId().'/delete';
+                                                    $dataArray['data'][ucfirst(lang('general.category'))] = $category->getName();
+
+                                                    $jsonData = json_encode($dataArray);
+                                                    ?>
+                                                    <a class="btn btn-link p-0 ms-2 delete_button" href='#' datasrc='<?=$jsonData;?>' data-bs-toggle="modal" data-bs-target="#DeletionModal"><i data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><i class="text-500 fas fa-trash-alt"></i></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -105,10 +111,17 @@ use Webigniter\Libraries\Content;
                                 <?php foreach($content as $item):?>
                                     <tr>
                                         <td class="name fs-0"><a href="/cms/content/<?=$item->getId();?>"><?=$item->getName();?></a></td>
-                                        <td class="url fs-0"><a href="<?=base_url().'/'.$item->getFullUrl();?>" target="_blank"><?=$item->getFullUrl();?></a></td>
+                                        <td class="url fs-0"><a href="<?=base_url().'/'.$item->getFullUrl();?>" target="_blank">/<?=$item->getFullUrl();?></a></td>
                                         <td class="text-end">
                                             <div>
-                                                <button class="btn btn-link p-0 ms-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><span class="text-500 fas fa-trash-alt"></span></button>
+                                                <?php
+                                                $dataArray['question'] = ucfirst(lang('general.delete_question', [lang('general.content')]));
+                                                $dataArray['link'] = '/cms/content/'.$item->getId().'/delete';
+                                                $dataArray['data'][ucfirst(lang('general.content'))] = $item->getName();
+
+                                                $jsonData = json_encode($dataArray);
+                                                ?>
+                                                <a class="btn btn-link p-0 ms-2 delete_button" href='#' datasrc='<?=$jsonData;?>' data-bs-toggle="modal" data-bs-target="#DeletionModal"><i data-bs-toggle="tooltip" data-bs-placement="top" title="<?=ucfirst(lang('general.delete'));?>"><i class="text-500 fas fa-trash-alt"></i></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -126,5 +139,7 @@ use Webigniter\Libraries\Content;
             </div>
         </div>
     </div>
+
+<?= $this->include('\Webigniter\Views\partials\deletion_modal') ?>
 
 <?= $this->endSection() ?>

@@ -21,6 +21,11 @@ $session = Services::session();
     <script src="/assets/vendors/webigniter/js/config.js"></script>
     <script src="/assets/vendors/simplebar/simplebar.min.js"></script>
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nestedSortable/2.0.0/jquery.mjs.nestedSortable.min.js" integrity="sha512-uAt5HkX8rwCV19v9HIeAocLUfQvQDfX0zuaMQr5HhGZc6GwhJoe9hzJYBxzsWTaDSMl4FazGovJwUbOA8rGuog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
@@ -79,18 +84,35 @@ $session = Services::session();
                         <li class="nav-item">
                             <!-- label-->
                             <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-                                <div class="col-auto navbar-vertical-label"><?=ucfirst(lang('general.general'));?>
-                                </div>
+                                <div class="col-auto navbar-vertical-label"><?=ucfirst(lang('general.content'));?></div>
                                 <div class="col ps-0">
                                     <hr class="mb-0 navbar-vertical-divider" />
                                 </div>
                             </div>
-                            <a class="nav-link <?= $uri->getPath() =='/cms'?'active': '';?>" href="/cms" role="button">
-                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.dashboard'));?></span>
-                                </div>
-                            </a>
                             <a class="nav-link <?= $uri->getPath() =='/cms/categories'?'active': '';?>" href="/cms/categories" role="button">
                                 <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-copy"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.categories'));?></span>
+                                </div>
+                            </a>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/views'?'active': '';?>" href="/cms/views" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-file"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.views'));?></span>
+                                </div>
+                            </a>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/navigations'?'active': '';?>" href="/cms/navigations" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-list-ul"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.navigations'));?></span>
+                                </div>
+                            </a>
+                            <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+                                <div class="col-auto navbar-vertical-label"><?=ucfirst(lang('general.security'));?></div>
+                                <div class="col ps-0">
+                                    <hr class="mb-0 navbar-vertical-divider" />
+                                </div>
+                            </div>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/categories'?'active': '';?>" href="/cms/categories" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-copy"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.categories'));?></span>
+                                </div>
+                            </a>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/views'?'active': '';?>" href="/cms/views" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-file"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.views'));?></span>
                                 </div>
                             </a>
                         </li>
@@ -350,17 +372,18 @@ $session = Services::session();
 
             <?= $this->renderSection('content') ?>
 
-    <script src="/assets/vendors/popper/popper.min.js"></script>
-    <script src="/assets/vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="/assets/vendors/anchorjs/anchor.min.js"></script>
-    <script src="/assets/vendors/is/is.min.js"></script>
-    <script src="/assets/vendors/echarts/echarts.min.js"></script>
-    <script src="/assets/vendors/fontawesome/all.min.js"></script>
-    <script src="/assets/vendors/lodash/lodash.min.js"></script>
-    <script src="/assets/vendors/choices/choices.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="/assets/vendors/list.js/list.min.js"></script>
-    <script src="/assets/vendors/webigniter/js/theme.js"></script>
+        <script src="/assets/vendors/popper/popper.min.js"></script>
+        <script src="/assets/vendors/bootstrap/bootstrap.min.js"></script>
+        <script src="/assets/vendors/anchorjs/anchor.min.js"></script>
+        <script src="/assets/vendors/is/is.min.js"></script>
+        <script src="/assets/vendors/echarts/echarts.min.js"></script>
+        <script src="/assets/vendors/fontawesome/all.min.js"></script>
+        <script src="/assets/vendors/lodash/lodash.min.js"></script>
+        <script src="/assets/vendors/choices/choices.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+        <script src="/assets/vendors/list.js/list.min.js"></script>
+        <script src="/assets/vendors/webigniter/js/theme.js"></script>
+        <script src="/assets/vendors/webigniter/js/cms.js"></script>
 
 
 </body>

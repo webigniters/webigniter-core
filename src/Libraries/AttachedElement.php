@@ -84,6 +84,10 @@ class AttachedElement
         $element = $elementsModel->find($this->getElementId());
 
         return $element->getName();
+    }
 
+    public function getSettingsArray(): array
+    {
+        return json_decode($this->settings, true);
     }
 }

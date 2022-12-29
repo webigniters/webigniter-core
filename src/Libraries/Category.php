@@ -11,6 +11,8 @@ class Category
     private string $slug;
     private bool $require_slug;
     private ?int $parent_id;
+    private string $layout_file;
+    private string $default_view;
     private string $created_at;
     private string $updated_at;
 
@@ -53,6 +55,24 @@ class Category
     {
         return $this->parent_id;
     }
+
+    /**
+     * @return string
+     */
+    public function getLayoutFile(): string
+    {
+        return $this->layout_file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultView(): string
+    {
+        return $this->default_view;
+    }
+
+
 
     /**
      * @return string
@@ -111,6 +131,23 @@ class Category
     {
         $this->parent_id = $parent_id;
     }
+
+    /**
+     * @param string $layout_file
+     */
+    public function setLayoutFile(string $layout_file): void
+    {
+        $this->layout_file = $layout_file;
+    }
+
+    /**
+     * @param string $default_template
+     */
+    public function setDefaultView(string $default_view): void
+    {
+        $this->default_view = $default_view;
+    }
+
 
     /**
      * @param string $created_at
