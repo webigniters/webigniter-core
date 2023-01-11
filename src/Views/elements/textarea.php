@@ -1,5 +1,7 @@
 <?php
 /** @var object $elementData */
+/** @var string $value */
+/** @var string $fieldName */
 ?>
 
-<textarea class="form-control" id="<?=url_title($elementData->name);?>"  name="<?=url_title($elementData->name);?>"><?=set_value(url_title($elementData->name), $elementData->value);?></textarea>
+<textarea class="form-control" id="<?=url_title($elementData->name);?>"  name="<?=$fieldName;?>"><?=set_value($fieldName, $value);?></textarea>

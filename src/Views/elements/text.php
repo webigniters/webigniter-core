@@ -1,5 +1,7 @@
 <?php
 /** @var object $elementData */
+/** @var array|string $value */
+/** @var string $fieldName */
 ?>
 
-<input class="form-control" id="<?=url_title($elementData->name);?>" type="text" name="<?=url_title($elementData->name);?>" value="<?=set_value(url_title($elementData->name), $elementData->value);?>" />
+<input class="form-control" id="<?=url_title($elementData->name);?>" type="text" name="<?=$fieldName;?>" value="<?=set_value($fieldName, $value);?>" />

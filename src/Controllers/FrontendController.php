@@ -6,26 +6,34 @@ use App\Controllers\BaseController;
 use CodeIgniter\View\Parser;
 use Config\Services;
 use Webigniter\Libraries\Navigation;
+
 use Webigniter\Models\AttachedElementsModel;
+use Webigniter\Models\AttachedPartialsModel;
 use Webigniter\Models\CategoriesModel;
 use Webigniter\Models\ContentModel;
 use Webigniter\Models\ElementsModel;
 use Webigniter\Models\NavigationsModel;
+use Webigniter\Models\PartialsModel;
 
 class FrontendController extends BaseController
 {
     private ContentModel $contentModel;
     private Parser $parser;
-    private AttachedElementsModel $attachedElementsModel;
+
     private ElementsModel $elementsModel;
     private CategoriesModel $categoriesModel;
     private NavigationsModel $navigationsModel;
+    private AttachedPartialsModel $attachedPartialsModel;
+    private PartialsModel $partialsModel;
+    private AttachedElementsModel $attachedElementsModel;
 
     function __construct()
     {
         $this->contentModel = new ContentModel();
         $this->elementsModel = new ElementsModel();
         $this->categoriesModel = new CategoriesModel();
+        $this->partialsModel = new PartialsModel();
+        $this->attachedPartialsModel = new AttachedPartialsModel();
         $this->attachedElementsModel = new AttachedElementsModel();
         $this->navigationsModel = new NavigationsModel();
         $this->parser = Services::parser();
@@ -34,35 +42,47 @@ class FrontendController extends BaseController
     public function index(int $contentId): string
     {
         $data = [];
+        $viewContent = '';
         $content = $this->contentModel->find($contentId);
         $category = $this->categoriesModel->find($content->getCategoryId());
 
         $this->parser->setDelimiters('{{','}}')->setConditionalDelimiters('{{','}}');
 
-        //Parse Elements
-        $attachedElements = $this->attachedElementsModel->where('content_id', $contentId)->findAll();
-        foreach($attachedElements as $attachedElement)
-        {
-            $element = $this->elementsModel->find($attachedElement->getElementId());
-            $elementClass = $element->getClass();
-            $elementObject = new $elementClass($attachedElement->getId());
+        //Parse Partials
+        $attachedPartials = $this->attachedPartialsModel->where('content_id', $contentId)->orderBy('order')->findAll();
+        foreach($attachedPartials as $attachedPartial){
+            $partial = $this->partialsModel->find($attachedPartial->getPartialId());
 
-            $fieldName = json_decode($attachedElement->getSettings())->name;
+            $attachedElements = $this->attachedElementsModel->where('partial_id', $attachedPartial->getPartialId())->findAll();
 
-            $data[$fieldName] = $elementObject->output();
+            foreach($attachedElements as $attachedElement)
+            {
+                $fieldName = json_decode($attachedElement->getSettings())->name;
+
+                $element = $this->elementsModel->find($attachedElement->getElementId());
+                $elementClass = $element->getClass();
+                $elementObject = new $elementClass($attachedPartial->getId(), $fieldName);
+
+                if(is_array($elementObject->output()))
+                {
+                    foreach($elementObject->output() as $key => $value)
+                    {
+                        $data[$fieldName.':'.$key] = $value;
+                    }
+                }
+                else{
+                    $data[$fieldName] = $elementObject->output();
+                }
+            }
+
+            $viewContent .= $this->parser->setData($data)->render($partial->getViewFile(), ['cascadeData' => true]);
         }
 
         //Parse Navigations
         $allNavigations = $this->navigationsModel->find();
         foreach($allNavigations as $navigation){
-            $data = $this->getNavItems($navigation);
+            $data['nav:'.$navigation->getName()] = $this->getNavItems($navigation);
         }
-
-        echo "<pre>";
-        print_r($data['nav:footer']);
-
-        //render view file
-        $viewContent =  $this->parser->setData($data)->render($content->getViewFile(), ['cascadeData' => true]);
 
         $data['viewContent'] = $viewContent;
 
@@ -71,42 +91,40 @@ class FrontendController extends BaseController
     }
 
 
-    private function getNavItems (Navigation $navigation, $parentId = null): array
+    private function getNavItems (Navigation $navigation): array
     {
-        global $navArray;
+        $returnArray = [];
+        $items = $navigation->getNavigationItems();
 
-        $navArray = $navArray ?? [];
-
-        foreach($navigation->getNavigationItems($parentId) as $navigationItem)
+        foreach($items as $item)
         {
+            $returnArray[$item->getId()]['name'] = $item->getName();
+            $returnArray[$item->getId()]['link'] = $item->getParsedLink();
+            $returnArray[$item->getId()]['children'] = [];
 
-            if(!$parentId){
-                $navArray['nav:'.$navigation->getName()][$navigationItem->getId()] = [
-                    'name' => $navigationItem->getName(),
-                    'link' => $navigationItem->getLink(),
-                    'depth' => $navigationItem->getDepth(),
-                    'children' => []
-                ];
-            }
-            else
+            if($item->hasChildren())
             {
-                print_r($navigationItem->getParents());
-                echo "<hr>";
-                $navArray['nav:'.$navigation->getName()][$parentId]['children'][$navigationItem->getId()] = [
-                    'name'.$navigationItem->getDepth() => $navigationItem->getName(),
-                    'link'.$navigationItem->getDepth() => $navigationItem->getLink(),
-                    'children'.$navigationItem->getDepth() => []
-                ];
-            }
-
-                if($navigationItem->hasChildren())
+                $children = $item->getChildren();
+                foreach($children as $child)
                 {
-                    $this->getNavItems($navigation, $navigationItem->getId());
+                    $returnArray[$item->getId()]['children'][$child->getId()]['name1'] = $child->getName();
+                    $returnArray[$item->getId()]['children'][$child->getId()]['link1'] = $child->getParsedLink();
+                    $returnArray[$item->getId()]['children'][$child->getId()]['children1'] = [];
+
+                    if($child->hasChildren())
+                    {
+                        $subChildren = $child->getChildren();
+                        foreach($subChildren as $subChild)
+                        {
+                            $returnArray[$item->getId()]['children'][$child->getId()]['children1'][$subChild->getId()]['name2'] = $subChild->getName();
+                            $returnArray[$item->getId()]['children'][$child->getId()]['children1'][$subChild->getId()]['link2'] = $subChild->getParsedLink();
+
+                        }
+                    }
                 }
             }
+        }
 
-        return $navArray;
-
+        return $returnArray;
     }
-
 }

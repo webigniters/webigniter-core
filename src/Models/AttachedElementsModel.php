@@ -12,5 +12,5 @@ class AttachedElementsModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType     = AttachedElement::class;
 
-    protected $allowedFields = ['content_id', 'element_id', 'settings'];
+    protected $allowedFields = ['partial_id', 'element_id', 'settings'];
 }

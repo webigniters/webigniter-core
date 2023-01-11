@@ -93,12 +93,20 @@ $session = Services::session();
                                 <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-copy"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.categories'));?></span>
                                 </div>
                             </a>
-                            <a class="nav-link <?= $uri->getPath() =='/cms/views'?'active': '';?>" href="/cms/views" role="button">
-                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-file"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.views'));?></span>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/partials'?'active': '';?>" href="/cms/partials" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-puzzle-piece"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.partials'));?></span>
                                 </div>
                             </a>
                             <a class="nav-link <?= $uri->getPath() =='/cms/navigations'?'active': '';?>" href="/cms/navigations" role="button">
                                 <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-list-ul"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.navigations'));?></span>
+                                </div>
+                            </a>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/media'?'active': '';?>" href="/cms/media" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-file-image"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.media'));?></span>
+                                </div>
+                            </a>
+                            <a class="nav-link <?= $uri->getPath() =='/cms/views'?'active': '';?>" href="/cms/views" role="button">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-file"></span></span><span class="nav-link-text ps-1"><?=ucfirst(lang('general.views'));?></span>
                                 </div>
                             </a>
                             <div class="row navbar-vertical-label-wrapper mt-3 mb-2">

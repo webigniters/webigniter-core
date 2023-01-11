@@ -1,10 +1,10 @@
 <?php
-/** @var Content $content */
+/** @var Partial $partial */
 /** @var array $elements */
 /** @var Element $element */
 
-use Webigniter\Libraries\Content;
 use Webigniter\Libraries\Element;
+use Webigniter\Libraries\Partial;
 
 ?>
 
@@ -26,7 +26,7 @@ use Webigniter\Libraries\Element;
                             </p>
                             <div class="collapse" id="element-<?=$element->getId();?>">
                                 <div class="border p-x1 rounded">
-                                    <form method="post" action="/cms/content/<?=$content->getId();?>/add-element/<?=$element->getId();?>">
+                                    <form method="post" action="/cms/partial/<?=$partial->getId();?>/add-element/<?=$element->getId();?>">
                                         <?php foreach(json_decode($element->getSettings(), true) as $name => $type):
                                             if($type === 'text'):?>
                                                 <label class="form-label" for="<?=$name;?>"><?=ucfirst(lang('elements.'.$name));?></label>

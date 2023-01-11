@@ -2,21 +2,25 @@
 
 namespace Webigniter\Libraries\Elements;
 
-use Webigniter\Models\AttachedElementsModel;
+use Webigniter\Models\AttachedPartialsModel;
 
 class Elements
 {
-    private AttachedElementsModel $attachedElementModel;
-    public array $elementData;
+    private AttachedPartialsModel $attachedPartialsModel;
+    protected array $elementData;
+    protected string $fieldName;
 
-    function __construct(int $elementId)
+    function __construct(int $attachedPartialId, string $fieldName)
     {
-        $this->attachedElementModel = new AttachedElementsModel();
-        $element = $this->attachedElementModel->find($elementId);
-        $this->elementData = json_decode($element->getSettings(),true);
+        $this->attachedPartialsModel = new AttachedPartialsModel();
+        $partial = $this->attachedPartialsModel->find($attachedPartialId);
+
+        $this->fieldName = $fieldName;
+
+        $this->elementData = json_decode($partial->getData(),true);
     }
 
-    public function output(): string
+    public function output(): array|string
     {
         return '';
     }

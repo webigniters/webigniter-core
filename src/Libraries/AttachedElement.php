@@ -86,6 +86,15 @@ class AttachedElement
         return $element->getName();
     }
 
+    public function getElementPartial(): string
+    {
+        $elementsModel = new ElementsModel();
+
+        $element = $elementsModel->find($this->getElementId());
+
+        return $element->getPartial();
+    }
+
     public function getSettingsArray(): array
     {
         return json_decode($this->settings, true);

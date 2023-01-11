@@ -6,6 +6,6 @@ class Textarea extends Elements
 {
     public function output(): string
     {
-        return $this->elementData['value'];
+        return $this->elementData[$this->fieldName];
     }
 }

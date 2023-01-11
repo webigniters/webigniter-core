@@ -4,6 +4,7 @@ namespace Webigniter\Controllers;
 
 use App\Controllers\BaseController;
 use Webigniter\Models\ContentModel;
+use Webigniter\Models\MediaDataModel;
 use Webigniter\Models\NavigationItemsModel;
 
 
@@ -72,5 +73,15 @@ class Ajax extends BaseController
 
         $navigationItemsModel->delete($this->request->getPost('item'));
         $navigationItemsModel->where('parent_id', $this->request->getPost('item'))->delete();
+    }
+
+    private function processAddMedia()
+    {
+        $mediaDataModel = new MediaDataModel();
+        $media = $mediaDataModel->find($this->request->getPost('mediaId'));
+
+        $image = str_starts_with(mime_content_type(FCPATH.'/media/'.$media->getFilename()), 'image');
+
+        echo json_encode(['fileName' => $media->getFilename(), 'image' => $image]);
     }
 }

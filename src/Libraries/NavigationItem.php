@@ -2,6 +2,7 @@
 
 namespace Webigniter\Libraries;
 
+use Webigniter\Models\ContentModel;
 use Webigniter\Models\NavigationItemsModel;
 
 class NavigationItem
@@ -12,8 +13,15 @@ class NavigationItem
     private string $name;
     private ?int $content_id;
     private ?string $link;
-    private int $depth = 0;
-    private array $parents = [];
+    public ?array $children = null;
+
+    function __construct()
+    {
+        if(isset($this->id) && $this->hasChildren())
+        {
+            $this->children = $this->getChildren();
+        }
+    }
 
     /**
      * @return int
@@ -113,12 +121,9 @@ class NavigationItem
     }
 
 
-
     /** CUSTOM METHODS */
 
-
     public function hasChildren(): bool
-
     {
         $navigationItemsModel = new NavigationItemsModel();
 
@@ -127,40 +132,27 @@ class NavigationItem
         return $numChildren>0;
     }
 
-    public function getDepth(): int
-    {
-//        if($this->depth > 0)
-//        {
-//            return $this->depth;
-//        }
 
+    public function getChildren(): array
+    {
         $navigationItemsModel = new NavigationItemsModel();
 
-        if($this->getParentId())
-        {
-            $this->depth++;
-            $parent = $navigationItemsModel->find($this->getParentId());
+        return $navigationItemsModel->where('parent_id', $this->id)->orderBy('order')->findAll();
 
-            $parent->getDepth();
-        }
-
-        return $this->depth;
     }
 
-    public function getParents(): array
+    public function getParsedLink(): string
     {
-        global $parents;
-
-        $navigationItemsModel = new NavigationItemsModel();
-
-        if($this->getParentId())
+        if($this->content_id)
         {
-            $parents[] = $this->getParentId();
-            $parent = $navigationItemsModel->find($this->getParentId());
+            $contentModel = new ContentModel();
+            $content = $contentModel->find($this->content_id);
 
-            $parent->getParents();
+            return "/".$content->getFullUrl();
         }
-
-        return $parents;
+        else
+        {
+            return $this->link;
+        }
     }
 }

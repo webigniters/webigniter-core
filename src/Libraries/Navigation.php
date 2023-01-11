@@ -48,8 +48,6 @@ class Navigation
     {
         $navigationItemsModel = new NavigationItemsModel();
 
-        $items = $navigationItemsModel->where('navigation_id', $this->id)->where('parent_id', $parentId)->orderBy('order')->findAll();
-
-        return $items;
+        return $navigationItemsModel->where('navigation_id', $this->id)->where('parent_id', $parentId)->orderBy('order')->findAll();
     }
 }

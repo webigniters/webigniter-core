@@ -60,7 +60,7 @@ use Webigniter\Models\ContentModel;
                 tabSize: 25,
                 tolerance: 'pointer',
                 toleranceElement: '> div',
-                maxLevels: 0,
+                maxLevels: 3,
                 isTree: true,
                 expandOnHover: 700,
                 startCollapsed: false
