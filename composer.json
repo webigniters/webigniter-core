@@ -5,7 +5,7 @@
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
-    "codeigniter4/framework": "^4.2.10",
+    "codeigniter4/framework": "^4.3.0",
     "ext-fileinfo": "*"
   },
 
