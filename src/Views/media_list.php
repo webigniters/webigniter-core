@@ -21,7 +21,7 @@
                                 <tr>
                                     <th class="sort fs-1" data-sort="name"><?=ucfirst(lang('general.name'));?></th>
                                     <th class="sort fs-1" data-sort="size"><?=ucfirst(lang('general.filesize'));?></th>
-                                    <th class="text-end fs-1"><?=ucfirst(lang('general.actions'));?></th>
+                                        <th class="text-end fs-1"><?=ucfirst(lang('general.actions'));?></th>
                                 </tr>
                                 </thead>
                                 <tbody class="list">

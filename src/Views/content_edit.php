@@ -87,7 +87,7 @@ use Webigniter\Libraries\Content;
                                             $data['value'] = $partialData[$element->getSettingsArray()['name']];
                                             $data['fieldName'] = $attachedPartial->getId().':'.$data['elementData']->name;
 
-                                            echo view('\Webigniter\Views\elements\\'.$element->getElementPartial(), $data);
+                                            echo view($element->getElementPartial(), $data);
                                             ?>
                                     </div>
                                 <?php endforeach; ?>

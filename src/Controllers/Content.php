@@ -112,10 +112,6 @@ class Content extends BaseController
 
     public function edit(int $contentId)
     {
-
-//        echo "<pre>";
-//        print_r($_POST);
-//        die();
         $content = $this->contentModel->find($contentId);
         $partials = $this->partialsModel->findAll();
         $attachedPartials = $this->attachedPartialsModel->where('content_id', $contentId)->findAll();

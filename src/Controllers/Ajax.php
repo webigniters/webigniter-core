@@ -3,6 +3,7 @@
 namespace Webigniter\Controllers;
 
 use App\Controllers\BaseController;
+use Webigniter\Libraries\MediaData;
 use Webigniter\Models\ContentModel;
 use Webigniter\Models\MediaDataModel;
 use Webigniter\Models\NavigationItemsModel;

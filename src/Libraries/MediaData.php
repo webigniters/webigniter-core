@@ -85,7 +85,7 @@ class MediaData
         return $foundMedia->getId();
     }
 
-    public static function getMediaDirectory(string $currentFolder): array
+    public static function getMediaDirectory(string $currentFolder = ''): array
     {
         $folders = [];
         $files = [];

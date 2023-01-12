@@ -377,7 +377,6 @@ $session = Services::session();
                 $session->setFlashdata('messages');
                 endif;
             ?>
-
             <?= $this->renderSection('content') ?>
 
         <script src="/assets/vendors/popper/popper.min.js"></script>

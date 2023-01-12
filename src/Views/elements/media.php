@@ -38,30 +38,36 @@ $fieldNameExplode = explode(':', $fieldName);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered table-striped fs--1 mb-0">
-                    <thead class="bg-200 text-900">
-                    <tr>
-                        <th class="sort fs-1" data-sort="name"><?=ucfirst(lang('general.name'));?></th>
-                        <th class="sort fs-1" data-sort="size"><?=ucfirst(lang('general.filesize'));?></th>
-                    </tr>
-                    </thead>
-                    <tbody class="list">
-                    <?php foreach(MediaData::getMediaDirectory('') as $mediaItem):?>
-                        <tr>
-                            <td class="name fs-0 text-primary">
-                                <?php if(str_starts_with(mime_content_type(FCPATH.'/media/'.$mediaItem['name']), 'image')):?>
-                                    <img src="/media/<?=$mediaItem['name'];?>" alt="" class="me-1 rounded" style="width: 35px; height: 35px;">
-                                <?php else: ?>
-                                    <i class="<?=$mediaItem['icon'];?> me-2  fs-5"></i>
-                                <?php endif; ?>
 
-                                <a href="#" id="process:<?=$mediaItem['id'].':'.$fieldNameExplode[0].':'.$fieldName;?>"><?=$mediaItem['name'];?></a>
-                            </td>
-                            <td class="size fs-0 text-primary"><?=$mediaItem['size'];?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <iframe src="http://webigniter-cms.lcl/cms/media" width="100%" height="750"></iframe>
+
+<!--                <table class="table table-bordered table-striped fs--1 mb-0">-->
+<!--                    <thead class="bg-200 text-900">-->
+<!--                    <tr>-->
+<!--                        <th class="sort fs-1" data-sort="name">--><?//=ucfirst(lang('general.name'));?><!--</th>-->
+<!--                        <th class="sort fs-1" data-sort="size">--><?//=ucfirst(lang('general.filesize'));?><!--</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody class="list" id="mediaList">-->
+<!--                    --><?php //foreach(MediaData::getMediaDirectory() as $mediaItem):?>
+<!--                        <tr>-->
+<!--                            <td class="name fs-0 text-primary">-->
+<!--                                --><?php //if(str_starts_with(mime_content_type(FCPATH.'/media/'.$mediaItem['name']), 'image')):?>
+<!--                                    <img src="/media/--><?//=$mediaItem['name'];?><!--" alt="" class="me-1 rounded" style="width: 35px; height: 35px;">-->
+<!--                                --><?php //else: ?>
+<!--                                    <i class="--><?//=$mediaItem['icon'];?><!-- me-2  fs-5"></i>-->
+<!--                                --><?php //endif; ?>
+<!--                                --><?php //if($mediaItem['type'] === 'folder'):?>
+<!--                                    <a href="#" id="folderClick:--><?//=$mediaItem['name'].':'.$fieldName;?><!--">--><?//=$mediaItem['name'];?><!--</a>-->
+<!--                                --><?php //else: ?>
+<!--                                    <a href="#" id="process:--><?//=$mediaItem['id'].':'.$fieldName;?><!--">--><?//=$mediaItem['name'];?><!--</a>-->
+<!--                                --><?php //endif; ?>
+<!--                            </td>-->
+<!--                            <td class="size fs-0 text-primary">--><?//=$mediaItem['size'];?><!--</td>-->
+<!--                        </tr>-->
+<!--                    --><?php //endforeach; ?>
+<!--                    </tbody>-->
+<!--                </table>-->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
